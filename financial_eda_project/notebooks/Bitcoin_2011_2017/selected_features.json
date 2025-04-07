@@ -1,0 +1,1 @@
+{"features_class": ["intraday_volatility", "volatility_5d", "volatility_20d", "range_ratio", "Change %", "volatility_50d", "acc_dist", "volume_norm_20d", "Vol.", "volatility_deviation"], "features_reg": ["Change %", "volatility_5d", "volatility_20d", "intraday_volatility", "Vol.", "Low", "obv", "price_vol_corr", "acc_dist", "volume_norm_20d"]}
