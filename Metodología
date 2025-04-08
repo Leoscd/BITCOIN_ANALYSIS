@@ -1,0 +1,213 @@
+Metodología de Análisis y Predicción de Bitcoin
+
+Este documento detalla el enfoque metodológico utilizado para la construcción del sistema de predicción de movimientos significativos en el precio de Bitcoin mediante técnicas de machine learning.
+
+## Índice
+
+1. [Enfoque General](#enfoque-general)
+2. [Datos Utilizados](#datos-utilizados)
+3. [Preprocesamiento](#preprocesamiento)
+4. [Feature Engineering](#feature-engineering)
+5. [Modelado Predictivo](#modelado-predictivo)
+6. [Validación](#validación)
+7. [Implementación](#implementación)
+8. [Limitaciones](#limitaciones)
+
+## Enfoque General
+
+El proyecto sigue un enfoque híbrido que combina análisis técnico financiero tradicional con algoritmos modernos de machine learning. La hipótesis central es que ciertos patrones en indicadores técnicos, volatilidad y volumen pueden preceder a movimientos significativos en el precio de Bitcoin.
+
+### Objetivos principales:
+
+1. **Clasificación**: Identificar con anticipación la probabilidad de un movimiento significativo en el precio.
+2. **Regresión**: Estimar la magnitud potencial de dicho movimiento (con limitaciones reconocidas).
+
+## Datos Utilizados
+
+### Fuentes y Periodo
+
+- Datos históricos de Bitcoin del periodo 2011-2017
+- Granularidad diaria (OHLCV - Open, High, Low, Close, Volume)
+- Fuentes: Intercambios reconocidos y APIs financieras
+
+### Exploración inicial
+
+El análisis exploratorio reveló características importantes del mercado de Bitcoin durante el periodo estudiado:
+
+- Alta volatilidad con periodos de consolidación
+- Ciclos de acumulación-distribución
+- Patrones de breakout con confirmación de volumen
+- Comportamiento logarítmico de crecimiento a largo plazo
+
+## Preprocesamiento
+
+### Limpieza de datos
+
+1. Tratamiento de valores faltantes mediante:
+   - Interpolación lineal para gaps cortos
+   - Forward-fill para periodos más extensos
+
+2. Normalización de escalas temporales
+   - Ajuste por zonas horarias
+   - Estandarización de periodos de trading
+
+3. Detección y manejo de outliers
+   - Identificación mediante métodos estadísticos (Z-score, IQR)
+   - Tratamiento mediante winsorización para preservar la señal
+
+### Pipeline de procesamiento
+
+Se implementó un pipeline modular para garantizar la consistencia y reproducibilidad:
+
+```
+Datos brutos → Limpieza → Normalización → Feature Engineering → Conjunto de datos final
+```
+
+## Feature Engineering
+
+### Indicadores Técnicos
+
+Se implementaron más de 30 indicadores técnicos, entre los que destacan:
+
+#### 1. Medidas de Volatilidad
+- **intraday_volatility**: Volatilidad dentro del día calculada como (High-Low)/Open
+- **volatility_5d**: Desviación estándar móvil en ventana de 5 días
+- **volatility_20d**: Desviación estándar móvil en ventana de 20 días
+- **Bandas de Bollinger**: Incluyendo ancho de bandas y distancia al precio
+
+#### 2. Indicadores de Momentum
+- RSI (Relative Strength Index) con múltiples períodos
+- MACD (Moving Average Convergence Divergence)
+- Estocástico y sus derivados
+
+#### 3. Patrones de Price Action
+- Detección de breakouts sobre rangos consolidados
+- Patrón de estrechamiento de rangos (compresión de volatilidad)
+- **range_ratio**: Relación entre el rango diario y su media móvil
+
+#### 4. Indicadores de Volumen
+- Ratios de volumen respecto a medias históricas
+- OBV (On Balance Volume)
+- Volumen relativo en breakouts
+
+### Transformaciones Adicionales
+
+- Normalización de características para garantizar escala comparable
+- Aplicación de transformaciones logarítmicas para variables sesgadas
+- Creación de variables de lag para capturar dependencias temporales
+- Derivación de características combinadas mediante operaciones entre indicadores
+
+## Modelado Predictivo
+
+### Definición de Objetivos de Predicción
+
+1. **Clasificación**: Variable objetivo `significant_move`
+   - Movimiento > 5% en horizonte de 3 días = 1
+   - Caso contrario = 0
+
+2. **Regresión**: Variable objetivo `price_change_magnitude`
+   - Cambio porcentual en horizonte de 3 días
+
+### Modelos Evaluados
+
+Se evaluaron múltiples algoritmos para cada tarea:
+
+#### Clasificación:
+- Logistic Regression (baseline)
+- Decision Tree
+- Random Forest
+- XGBoost
+- LightGBM
+- **Gradient Boosting (modelo final seleccionado)**
+
+#### Regresión:
+- Linear Regression (baseline)
+- Support Vector Regression
+- Random Forest Regressor
+- Neural Network (MLP)
+
+### Selección y Optimización de Modelos
+
+El modelo Gradient Boosting resultó ser el más efectivo para la tarea de clasificación, destacando por:
+
+1. Mayor rendimiento predictivo (AUC)
+2. Buen balance entre sesgo y varianza
+3. Interpretabilidad vía feature importance
+4. Robustez frente a colinealidad de variables
+
+#### Hiperparámetros Optimizados (Gradient Boosting):
+
+```python
+best_params = {
+    'subsample': 0.8,
+    'n_estimators': 50,
+    'min_samples_split': 5,
+    'min_samples_leaf': 2,
+    'max_depth': 3,
+    'learning_rate': 0.01
+}
+```
+
+Estos parámetros fueron seleccionados mediante validación cruzada temporal con optimización bayesiana, priorizando la métrica AUC-ROC.
+
+## Validación
+
+### Estrategia de Validación Temporal
+
+Se implementó una validación que respeta la secuencia temporal de los datos:
+
+1. **División cronológica**:
+   - Training: 70% inicial (2011-2015)
+   - Validación: 15% intermedio (2015-2016)
+   - Testing: 15% final (2016-2017)
+
+2. **Walk-forward validation**:
+   - Entrenamiento progresivo con ventanas deslizantes
+   - Evaluación en periodos futuros no vistos
+   - 5 folds temporales para estimar robustez
+
+3. **Prevención de data leakage**:
+   - Estricta separación temporal en la generación de características
+   - Cálculo de estadísticas móviles solo con datos pasados
+   - Normalización independiente por conjunto de datos
+
+## Implementación
+
+### Arquitectura del Sistema
+
+El sistema se implementó con una arquitectura modular:
+
+1. **Módulo de Datos**: Encargado de la adquisición y procesamiento
+2. **Módulo de Features**: Generación de indicadores técnicos
+3. **Módulo de Modelos**: Entrenamiento, validación y predicción
+4. **Módulo de Evaluación**: Métricas y visualización de resultados
+
+### Pipeline de Producción
+
+El pipeline de producción sigue estos pasos:
+
+1. Ingesta de datos históricos
+2. Generación de características técnicas
+3. Normalización basada en estadísticas históricas
+4. Predicción mediante modelo pre-entrenado
+5. Evaluación continua de rendimiento
+
+## Limitaciones
+
+El sistema presenta algunas limitaciones importantes a considerar:
+
+1. **Naturaleza cambiante del mercado**: El comportamiento del Bitcoin ha evolucionado significativamente desde 2017.
+
+2. **Eventos exógenos**: El modelo no captura adecuadamente eventos inesperados (regulaciones, hacks, etc.).
+
+3. **Limitaciones de regresión**: La predicción de magnitudes exactas presenta un desafío mayor que la clasificación.
+
+4. **Horizonte temporal**: El modelo está optimizado para un horizonte de 3 días y su rendimiento disminuye en horizontes más largos.
+
+5. **Señales falsas**: Como todo sistema predictivo, genera un porcentaje significativo de falsos positivos que deben gestionarse mediante estrategias de riesgo.
+
+---
+
+Esta metodología representa un enfoque equilibrado entre métodos clásicos de análisis técnico y técnicas modernas de machine learning, con un énfasis particular en la validación rigurosa y la interpretabilidad de resultados.
+`
+}
