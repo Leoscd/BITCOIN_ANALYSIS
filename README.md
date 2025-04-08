@@ -96,7 +96,6 @@ Las contribuciones son bienvenidas. Consulta [CONTRIBUTING.md](CONTRIBUTING.md) 
 
 ---
 
-Desarrollado por [Leonardo] | [LinkedIn] | [Contacto]
+Desarrollado por [Leonardo] | [www.linkedin.com/in/leo-iml]
 
-`
-}
+
