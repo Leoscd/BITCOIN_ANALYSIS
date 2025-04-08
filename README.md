@@ -1,9 +1,8 @@
-{
-  `path`: `README.md`,
-  `content`: `# Análisis y Predicción de Bitcoin mediante Machine Learning
+# Análisis y Predicción de Bitcoin con Machine Learning
 
-Este repositorio contiene un sistema de análisis y predicción de movimientos significativos en el precio de Bitcoin utilizando técnicas avanzadas de Machine Learning. El proyecto está enfocado en la identificación de patrones predictivos mediante indicadores técnicos y algoritmos de aprendizaje automático.
-
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Leoscd/BITCOIN_ANALYSIS/graphs/commit-activity)
 ## Descripción
 
 El proyecto utiliza datos históricos de Bitcoin (2011-2017) para construir modelos predictivos capaces de:
