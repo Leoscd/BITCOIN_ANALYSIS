@@ -1,27 +1,52 @@
 # Análisis y Predicción de Bitcoin con Machine Learning
 
-[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Leoscd/BITCOIN_ANALYSIS/graphs/commit-activity)
-## Descripción
+<div align="center">
+  <img src="docs/images/bitcoin-banner.png" alt="Bitcoin Analysis Banner" width="600px">
+</div>
 
-El proyecto utiliza datos históricos de Bitcoin (2011-2017) para construir modelos predictivos capaces de:
+<div align="center">
+  <img src="https://img.shields.io/badge/ML-Bitcoin%20Analysis-orange" alt="ML Badge">
+  <img src="https://img.shields.io/badge/Python-3.7%2B-blue" alt="Python Badge">
+  <img src="https://img.shields.io/badge/Jupyter-Notebook-orange" alt="Jupyter Badge">
+  <img src="https://img.shields.io/badge/Status-Active-green" alt="Status Badge">
+  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License Badge">
+</div>
 
-1. **Clasificar** movimientos significativos en el precio (AUC 0.80)
-2. **Estimar** la magnitud potencial de dichos movimientos
+## 🔍 Descripción
+
+Este proyecto utiliza datos históricos de Bitcoin (2011-2017) para construir modelos predictivos capaces de:
+
+- **Clasificar movimientos significativos** en el precio (AUC 0.80)
+- **Estimar la magnitud potencial** de dichos movimientos
+- **Generar alertas** basadas en patrones identificados
 
 Mediante la combinación de análisis técnico tradicional y algoritmos modernos de machine learning, el sistema identifica patrones que preceden a movimientos relevantes en el mercado de criptomonedas.
 
-## Características
+## ✨ Características Principales
 
-- **Feature Engineering** especializado para series temporales financieras
-- **Indicadores técnicos** personalizados (volatilidad, Bollinger Bands, etc.)
+- **Feature Engineering especializado** para series temporales financieras
+- **Indicadores técnicos personalizados** (volatilidad, Bollinger Bands, etc.)
 - **Detección de breakouts** con confirmación por volumen
 - **Modelos predictivos** de clasificación y regresión
 - **Validación temporal** respetando la naturaleza secuencial de los datos
 - **Pipeline de procesamiento** modular y extensible
 
-## Estructura del Proyecto
+<div align="center">
+  <img src="docs/images/prediction-chart.png" alt="Prediction Chart" width="700px">
+</div>
+
+## 📊 Resultados Principales
+
+- **Modelo de clasificación**: AUC de 0.80 en la identificación de movimientos significativos
+- **Variables más predictivas**: Medidas de volatilidad (intraday, 5d, 20d) y ratios de precios
+- **Modelo optimizado**: Gradient Boosting con hiperparámetros específicamente ajustados
+- **Capacidad predictiva**: Identificación efectiva de oportunidades potenciales de trading
+
+<div align="center">
+  <img src="docs/images/feature-importance.png" alt="Feature Importance" width="600px">
+</div>
+
+## 🏗️ Estructura del Proyecto
 
 ```
 bitcoin-analysis/
@@ -32,36 +57,40 @@ bitcoin-analysis/
 │   ├── features/            # Generación de características
 │   ├── models/              # Implementación de modelos
 │   └── utils/               # Funciones auxiliares
+├── docs/                    # Documentación detallada
+│   ├── images/              # Imágenes para documentación
+│   └── examples/            # Ejemplos de uso
 ├── README.md                # Este archivo
-├── Methodology.md           # Explicación metodológica detallada
-├── Feature_Description.md   # Catálogo de variables utilizadas
-├── Model_Evaluation.md      # Resultados y evaluación de modelos
+├── METHODOLOGY.md           # Explicación metodológica detallada
+├── FEATURES.md              # Catálogo de variables utilizadas
+├── MODELS.md                # Resultados y evaluación de modelos
 ├── requirements.txt         # Dependencias del proyecto
 ├── CONTRIBUTING.md          # Guía para contribuciones
 └── LICENSE                  # Licencia MIT
 ```
 
-## Resultados Principales
+## 🚀 Instalación y Uso
 
-- **Modelo de clasificación**: AUC de 0.80 en la identificación de movimientos significativos
-- **Variables más predictivas**: Medidas de volatilidad (intraday, 5d, 20d) y ratios de precios
-- **Modelo optimizado**: Gradient Boosting con hiperparámetros específicamente ajustados
-- **Capacidad predictiva**: Identificación efectiva de oportunidades potenciales de trading
+### Requisitos Previos
+- Python 3.7+
+- pandas, numpy, scikit-learn, matplotlib, seaborn
+- Jupyter Notebook (opcional, para exploración)
 
-## Instalación y Uso
+### Instalación
 
 1. Clonar el repositorio:
-```bash
-git clone https://github.com/Leoscd/BITCOIN_ANALYSIS.git
-cd BITCOIN_ANALYSIS
-```
+   ```bash
+   git clone https://github.com/Leoscd/BITCOIN_ANALYSIS.git
+   cd BITCOIN_ANALYSIS
+   ```
 
 2. Instalar dependencias:
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-3. Ejecutar notebooks para reproducir el análisis o utilizar los módulos para predicciones:
+### Ejemplo de Uso
+
 ```python
 from src.models import BitcoinPredictor
 from src.features import TechnicalFeatures
@@ -80,22 +109,41 @@ predictor = BitcoinPredictor.load('models/gradient_boosting.pkl')
 predictions = predictor.predict(features)
 ```
 
-## Documentación Adicional
+## 📚 Documentación Adicional
 
-- [Metodología](Methodology.md): Enfoque técnico detallado del proyecto
-- [Descripción de Variables](Feature_Description.md): Catálogo completo de características implementadas
-- [Evaluación de Modelos](Model_Evaluation.md): Resultados, métricas y análisis de rendimiento
+- [Metodología](METHODOLOGY.md): Enfoque técnico detallado del proyecto
+- [Descripción de Variables](FEATURES.md): Catálogo completo de características implementadas
+- [Evaluación de Modelos](MODELS.md): Resultados, métricas y análisis de rendimiento
 
-## Licencia
+## 🛠️ Tecnologías Utilizadas
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+- **Lenguajes**: Python
+- **Análisis de Datos**: pandas, numpy
+- **Machine Learning**: scikit-learn, XGBoost
+- **Visualización**: matplotlib, seaborn, plotly
+- **Series Temporales**: statsmodels, pmdarima
 
-## Contribuciones
+## 🧪 Validación y Pruebas
 
-Las contribuciones son bienvenidas. Consulta [CONTRIBUTING.md](CONTRIBUTING.md) para conocer las pautas de contribución.
+Los modelos se validaron utilizando:
+- **Validación temporal**: Train en periodo 2011-2016, Test en 2017
+- **Cross-validation con walk-forward**: Respetando la naturaleza temporal de los datos
+- **Backtesting**: Simulación de estrategias de trading basadas en las predicciones
 
----
+## 🤝 Contribuciones
 
-Desarrollado por [Leonardo] | [www.linkedin.com/in/leo-iml]
+Las contribuciones son bienvenidas. Por favor, revisa primero [nuestra guía de contribución](CONTRIBUTING.md).
 
+1. Fork el repositorio
+2. Crea una nueva rama (`git checkout -b feature/nueva-caracteristica`)
+3. Haz commit de tus cambios (`git commit -m 'Añadida nueva característica'`)
+4. Push a la rama (`git push origin feature/nueva-caracteristica`)
+5. Abre un Pull Request
 
+## 📬 Contacto
+
+Leonardo Díaz - [GitHub Profile](https://github.com/Leoscd) - [LinkedIn](https://www.linkedin.com/in/leonardoadriandiaz/)
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
